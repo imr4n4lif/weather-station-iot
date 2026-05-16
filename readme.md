@@ -1,6 +1,6 @@
 # Weather Station
 
-Reads temperature, humidity, and rain level and sends the data live to the Arduino IoT Cloud.
+Reads temperature, humidity, and rain level, displays them on an LCD screen, and sends the data live to the Arduino IoT Cloud.
 
 ---
 
@@ -10,11 +10,15 @@ Reads temperature, humidity, and rain level and sends the data live to the Ardui
 
 2. **Sensing** — The Arduino Uno reads the DHT11 sensor (temperature + humidity) and the rain sensor every 5 seconds.
 
-3. **Sending** — The Arduino formats the readings as a simple string like `25.3,60.1,12` and sends it to the ESP8266 over a serial wire.
+3. **Display** — A 16×2 I2C LCD (address `0x27`) shows live readings updated every 0.5 seconds:
+   - Line 1: Temperature (°C) and humidity (%)
+   - Line 2: Rain level (%)
 
-4. **Voltage divider** — The Arduino talks at 5V but the ESP8266 only tolerates 3.3V on its RX pin. A 1kΩ + 2kΩ resistor divider sits between them to drop the signal safely.
+4. **Sending** — The Arduino formats the readings as a simple string like `25.3,60.1,12` and sends it to the ESP8266 over a serial wire.
 
-5. **Cloud** — The ESP8266 parses the string, extracts the three values, and pushes them to the Arduino IoT Cloud over Wi-Fi. Values only upload when they change.
+5. **Voltage divider** — The Arduino talks at 5V but the ESP8266 only tolerates 3.3V on its RX pin. A 1kΩ + 2kΩ resistor divider sits between them to drop the signal safely.
+
+6. **Cloud** — The ESP8266 parses the string, extracts the three values, and pushes them to the Arduino IoT Cloud over Wi-Fi. Values only upload when they change.
 
 ---
 
@@ -90,6 +94,7 @@ Go to your Thing → **Dashboard** → **Edit** → add the following widgets:
 
 - Both boards must share a common ground for serial communication to work.
 - Buck converter should be rated at least 1A output.
+- The LCD uses I2C (SDA/SCL), so only two data wires are needed beyond power and ground. Default I2C address is `0x27`; adjust in the sketch if yours differs.
 
 ### Dashboard preview
 
