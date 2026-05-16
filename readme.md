@@ -24,7 +24,7 @@ Reads temperature, humidity, and rain level, displays them on an LCD screen, and
 
 ## Wiring diagram
 
-![Wiring Diagram](diagram.png)
+![Wiring Diagram](wiring_diagram.png)
 
 ---
 
